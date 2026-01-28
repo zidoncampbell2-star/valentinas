@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Results</title>
+<style>
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg,#ffe5ec,#ffccd5);
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  padding: 24px;
+}
+h1 { font-size: 2rem; margin-bottom: 20px; }
+p { font-size: 1.2rem; margin-bottom: 10px; }
+button {
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: #ff4d6d;
+  color: white;
+  cursor: pointer;
+  margin-top: 20px;
+}
+button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+<h1>Your Results</h1>
+<p id="scoreText"></p>
+<p id="q1Text"></p>
+<p id="q2Text"></p>
+<p id="q3Text"></p>
+<button onclick="window.history.back()">Go Back</button>
+
+<script>
+  // Read results from URL parameters
+  const params = new URLSearchParams(window.location.search);
+
+  const score = params.get("score") || "No score";
+  const q1 = params.get("question1") || "No answer";
+  const q2 = params.get("question2") || "No answer";
+  const q3 = params.get("question3") || "No answer";
+
+  document.getElementById("scoreText").innerText = "Score: " + score;
+  document.getElementById("q1Text").innerText = "Answer 1: " + q1;
+  document.getElementById("q2Text").innerText = "Answer 2: " + q2;
+  document.getElementById("q3Text").innerText = "Answer 3: " + q3;
+</script>
+</body>
+</html>

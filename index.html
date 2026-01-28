@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  background:linear-gradient(135deg,#ffccd5,#ffe5ec);
+  height:100vh;
+  overflow:hidden;
+}
+
+/* VIDEO & IMAGE LAYER */
+#video-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:-2;
+}
+.float-video, .float-img{
+  position:absolute;
+  width:150px;
+  max-width:35vw;
+  opacity:.45;
+  filter:blur(.2px);
+  border-radius:12px;
+  animation:drift linear forwards;
+}
+
+/* DRIFT ANIMATION */
+@keyframes drift{
+  0%{transform:translate(var(--startX),var(--startY)) rotate(var(--startRot));opacity:0;}
+  10%{opacity:.45;}
+  90%{opacity:.45;}
+  100%{transform:translate(var(--endX),var(--endY)) rotate(var(--endRot));opacity:0;}
+}
+
+/* PAGE SYSTEM */
+.page{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;animation:fadeIn .7s ease;}
+.page.active{display:flex}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1{font-size:2rem;margin-bottom:12px}
+p{font-size:1.1rem;max-width:400px;opacity:.9}
+
+/* PROGRESS */
+#progress-container{position:absolute;top:0;left:0;width:100%;height:6px;background:rgba(255,255,255,.3)}
+#progress-bar{height:100%;width:0%;background:#ff4d6d;transition:width .4s ease}
+
+/* BUTTONS */
+button{width:100%;max-width:320px;padding:14px;margin:10px 0;border:none;border-radius:18px;font-size:1rem;background:white;cursor:pointer;box-shadow:0 4px 6px rgba(0,0,0,.15);transition:.2s ease;}
+button:hover{transform:scale(1.08);box-shadow:0 6px 12px rgba(0,0,0,.25);}
+button:active{transform:scale(.95)}
+.primary{background:#ff4d6d;color:white}
+
+/* INPUT */
+input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;font-size:1rem;margin-top:12px;}
+
+/* FLAVOR TEXT */
+.flavor{
+  position:absolute;
+  font-family:'Courier New', monospace;
+  font-weight:bold;
+  color:#ff4d6d;
+  text-shadow:0 0 6px white,0 0 12px #ff4d6d;
+  animation:flavorAnim linear forwards;
+  pointer-events:none;
+}
+@keyframes flavorAnim{
+  0%{opacity:0; transform:scale(0.7);}
+  10%{opacity:1; transform:scale(1);}
+  80%{opacity:1;}
+  100%{opacity:0; transform:scale(0.8);}
+}
+
+/* OVERLAY */
+.overlay{position:absolute;inset:0;background:rgba(0,0,0,.9);display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:white;padding:24px;}
+.overlay.active{display:flex}
+</style>
+</head>
+<body>
+
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="video-layer"></div>
+
+<audio id="bgMusic" loop>
+  <source src="children-of-the-city.mp3" type="audio/mpeg">
+</audio>
+
+<!-- HIDDEN FORM -->
+<form id="resultsForm" action="results.html" method="GET" style="display:none;">
+  <input type="hidden" name="question1" id="formQ1">
+  <input type="hidden" name="question2" id="formQ2">
+  <input type="hidden" name="question3" id="formQ3">
+  <input type="hidden" name="score" id="formScore">
+</form>
+
+<!-- PAGES -->
+<section class="page active">
+  <h1>Hey mommy</h1>
+  <p>I made something i guess</p>
+  <button class="primary" onclick="startExperience()">Tap tap</button>
+  <button onclick="fail()">Not right now</button>
+</section>
+
+<section class="page">
+  <h1>Before we continue</h1>
+  <p>I have sum to sayyy</p>
+  <button class="primary" onclick="next()">Continue!!!</button>
+  <button onclick="fail()">No</button>
+</section>
+
+<section class="page">
+  <h1>Question 1</h1>
+  <p>Do you like me???</p>
+  <button onclick="correct()">Yes</button>
+  <button onclick="fail()">Nah</button>
+  <button onclick="fail()">Fuck off</button>
+</section>
+
+<section class="page">
+  <h1>Question 2</h1>
+  <p>Do you wanna get marrieddd</p>
+  <button onclick="correct()">YESS</button>
+  <button onclick="fail()">Yh ig</button>
+  <button onclick="fail()">Nah fuck off</button>
+</section>
+
+<section class="page">
+  <h1>Question 3</h1>
+  <p>Do you think im weird?</p>
+  <button onclick="correct()">Yes</button>
+  <button onclick="fail()">A lil bit</button>
+  <button onclick="fail()">Too much</button>
+</section>
+
+<section class="page">
+  <h1>Question 4</h1>
+  <p>But do you like that?</p>
+  <button onclick="correct()">Yes</button>
+  <button onclick="fail()">Nahhh</button>
+  <button onclick="fail()">Not really</button>
+</section>
+
+<section class="page">
+  <h1>Question 5</h1>
+  <p>Are you ready to type?</p>
+  <button onclick="correct()">Yes</button>
+  <button onclick="correct()">Yes</button>
+  <button onclick="correct()">Yes</button>
+</section>
+
+<section class="page">
+  <h1>One more thing</h1>
+  <p>Why do you want me</p>
+  <input placeholder="TYPE!!!" id="input1">
+  <button class="primary" onclick="next()">Next</button>
+</section>
+
+<section class="page">
+  <h1>Another question</h1>
+  <p>One thing you would want me to buy for you</p>
+  <input placeholder="TYPE TYPE!" id="input2">
+  <button class="primary" onclick="next()">Next</button>
+</section>
+
+<section class="page">
+  <h1>Last one</h1>
+  <p>Whats one thing you dislike about me</p>
+  <input placeholder="Yeaaa type bro" id="input3">
+  <button class="primary" onclick="goToPart2()">Continue</button>
+</section>
+
+<!-- FAIL -->
+<div id="failPage" class="overlay">
+  <h1>Oh.</h1>
+  <button onclick="location.reload()">Close</button>
+</div>
+
+<!-- RESULT -->
+<div id="resultPage" class="overlay">
+  <h1 id="resultTitle"></h1>
+  <p id="resultText"></p>
+  <button id="part2Btn" style="display:none;" onclick="goToPart2()">Go to Part 2</button>
+  <button onclick="location.reload()">Restart</button>
+</div>
+
+<!-- PART 2 -->
+<section class="page" id="part2Page">
+  <h1>Part 2</h1>
+  <p contenteditable="true" style="border:1px solid #ccc;padding:12px;border-radius:8px;width:80%;max-width:400px;">
+So... as you really know guys.. I like you so much, and if you remember last year's valentines, youd know i gave you 17(?) reasons why i love you. this isnt for valentines, but still here goes. I love you for your smile, your face, your belly, your lots of personalities, the way you walk, the way you talk, your voice, the way you handle me, the way you look at only me makes me feel special i hope you look at only me like that and not anyone else but i also like your feet, hands, neck, legs, bone structure, and genuinely everything about you i love your whole life and so i wanna ask...
+  </p>
+  <p>Do you want to be my girlfriend? 
+    <input type="text" id="part2Input" placeholder="Yes or No" style="border:1px solid #ccc;padding:4px;border-radius:4px;width:60px;">
+  </p>
+  <button id="part2Yes">Yes</button>
+  <button id="option3" disabled style="opacity:0.5;">No</button>
+</section>
+
+<!-- PART 3 -->
+<section class="page" id="part3Page">
+  <h1>Nice</h1>
+  <p contenteditable="true" style="border:1px solid #ccc;padding:12px;border-radius:8px;width:80%;max-width:400px;">
+Write something fun here...
+  </p>
+  <button class="primary" onclick="location.reload()">Restart</button>
+</section>
+
+<script>
+let pages=document.querySelectorAll(".page"), current=0, score=0, musicStarted=false;
+
+/* MUSIC */
+function startExperience(){
+  if(!musicStarted){
+    musicStarted=true;
+    const m=document.getElementById("bgMusic");
+    m.volume=0;
+    m.play().then(()=>{
+      setTimeout(()=>{
+        let v=0;
+        let fade=setInterval(()=>{
+          v+=0.02;
+          m.volume=Math.min(v,.25);
+          if(v>=.25) clearInterval(fade);
+        },150);
+      },2710);
+    });
+  }
+  next();
+}
+
+/* NAV */
+function next(){pages[current].classList.remove("active");current++;if(pages[current]) pages[current].classList.add("active");}
+function correct(){score++;updateProgress();spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]);next();}
+function fail(){document.getElementById("failPage").classList.add("active");}
+
+/* SEND RESULTS */
+function sendResults(){
+  document.getElementById("formQ1").value=document.getElementById("input1").value;
+  document.getElementById("formQ2").value=document.getElementById("input2").value;
+  document.getElementById("formQ3").value=document.getElementById("input3").value;
+  document.getElementById("formScore").value=score;
+  document.getElementById("resultsForm").submit();
+}
+
+/* PROGRESS */
+function updateProgress(){document.getElementById("progress-bar").style.width=(score/5*100)+"%";}
+
+/* FLAVOR TEXT */
+const flavorTexts=["Its time for another vendetta","Mommy","Hiiii","Cutie wutie","I desperately wish to be included in the city's light.","2.71828182845904523536...","0287471352662497757..","2510136111515741166772","I love you","Wifey"];
+function spawnFlavor(text){
+  let f=document.createElement("div");
+  f.className="flavor";
+  f.innerText=text;
+  f.style.left=Math.random()*80+"vw";
+  f.style.top=Math.random()*80+"vh";
+  f.style.transform="rotate("+(Math.random()*30-15)+"deg)";
+  f.style.fontSize=(14+Math.random()*10)+"px";
+  document.body.appendChild(f);
+  f.style.animationDuration=(3+Math.random()*2)+"s";
+  setTimeout(()=>f.remove(),4000);
+}
+setInterval(()=>{spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]);},1200);
+
+/* VIDEOS & IMAGES */
+const vids=["vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4"];
+const imgs=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg","img6.jpeg"];
+const layer=document.getElementById("video-layer");
+
+function spawnVideo(){
+  let v=document.createElement("video");
+  v.src=vids[Math.floor(Math.random()*vids.length)];
+  v.className="float-video";
+  v.autoplay=true;v.loop=true;v.muted=true;v.playsInline=true;
+  v.style.opacity=0.45;
+  const startX=Math.random()*80+"vw";
+  const endX=Math.random()*80+"vw";
+  const startY=Math.random()*-50+"vh";
+  const endY=Math.random()*100+50+"vh";
+  v.style.setProperty("--startX",startX);
+  v.style.setProperty("--endX",endX);
+  v.style.setProperty("--startY",startY);
+  v.style.setProperty("--endY",endY);
+  v.style.setProperty("--startRot",Math.random()*60-30+"deg");
+  v.style.setProperty("--endRot",Math.random()*60-30+"deg");
+  let dur=15+Math.random()*5;
+  v.style.animationDuration=dur+"s";
+  layer.appendChild(v);
+  setTimeout(()=>v.remove(),dur*1000);
+}
+
+function spawnImage(){
+  let i=document.createElement("img");
+  i.src=imgs[Math.floor(Math.random()*imgs.length)];
+  i.className="float-img";
+  i.style.opacity=0.45;
+  const startX=Math.random()*80+"vw";
+  const endX=Math.random()*80+"vw";
+  const startY=Math.random()*-50+"vh";
+  const endY=Math.random()*100+50+"vh";
+  i.style.setProperty("--startX",startX);
+  i.style.setProperty("--endX",endX);
+  i.style.setProperty("--startY",startY);
+  i.style.setProperty("--endY",endY);
+  i.style.setProperty("--startRot",Math.random()*60-30+"deg");
+  i.style.setProperty("--endRot",Math.random()*60-30+"deg");
+  let dur=18+Math.random()*6;
+  i.style.animationDuration=dur+"s";
+  layer.appendChild(i);
+  setTimeout(()=>i.remove(),dur*1000);
+}
+setInterval(spawnVideo,4000);
+setInterval(spawnImage,5000);
+
+/* PART 2 BUTTON LOGIC */
+document.getElementById("part2Yes").addEventListener("click", ()=>{
+  const val=document.getElementById("part2Input").value.trim().toLowerCase();
+  if(val==="yes"){
+    pages[current].classList.remove("active");
+    current=Array.from(pages).findIndex(p=>p.id==="part3Page");
+    pages[current].classList.add("active");
+  }
+});
+
+/* GO TO PART 2 FROM LAST PAGE */
+function goToPart2(){
+  // Remove current
+  pages[current].classList.remove("active");
+  current=Array.from(pages).findIndex(p=>p.id==="part2Page");
+  pages[current].classList.add("active");
+  document.getElementById("option3").disabled=true;
+  document.getElementById("option3").style.opacity=0.5;
+}
+</script>
+</body>
+</html>
