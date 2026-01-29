@@ -21,48 +21,97 @@ body{
   overflow:hidden;
   z-index:-2;
 }
-.float-video, .float-img{
+.float-video,.float-img,.fpic,.fvid{
   position:absolute;
-  width:150px;
+  width:140px;
   max-width:35vw;
-  opacity:.45;
-  filter:blur(.2px);
+  opacity:.38;
   border-radius:12px;
   animation:drift linear forwards;
 }
 
-/* DRIFT ANIMATION */
+/* DRIFT */
 @keyframes drift{
   0%{transform:translate(var(--startX),var(--startY)) rotate(var(--startRot));opacity:0;}
-  10%{opacity:.45;}
-  90%{opacity:.45;}
+  10%{opacity:.38;}
+  90%{opacity:.38;}
   100%{transform:translate(var(--endX),var(--endY)) rotate(var(--endRot));opacity:0;}
 }
 
 /* PAGE SYSTEM */
-.page{position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:24px;animation:fadeIn .7s ease;}
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:24px;
+  animation:fadeIn .6s ease;
+}
 .page.active{display:flex}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
 h1{font-size:2rem;margin-bottom:12px}
-p{font-size:1.1rem;max-width:400px;opacity:.9}
+p{font-size:1.1rem;max-width:420px;opacity:.9}
 
 /* PROGRESS */
-#progress-container{position:absolute;top:0;left:0;width:100%;height:6px;background:rgba(255,255,255,.3)}
-#progress-bar{height:100%;width:0%;background:#ff4d6d;transition:width .4s ease}
+#progress-container{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:6px;
+  background:rgba(255,255,255,.3)
+}
+#progress-bar{
+  height:100%;
+  width:0%;
+  background:#ff4d6d;
+  transition:width .4s ease
+}
 
 /* BUTTONS */
-button{width:100%;max-width:320px;padding:14px;margin:10px 0;border:none;border-radius:18px;font-size:1rem;background:white;cursor:pointer;box-shadow:0 4px 6px rgba(0,0,0,.15);transition:.2s ease;}
-button:hover{transform:scale(1.08);box-shadow:0 6px 12px rgba(0,0,0,.25);}
-button:active{transform:scale(.95)}
+button{
+  width:100%;
+  max-width:320px;
+  padding:14px;
+  margin:10px 0;
+  border:none;
+  border-radius:18px;
+  font-size:1rem;
+  background:white;
+  cursor:pointer;
+  box-shadow:0 4px 6px rgba(0,0,0,.15);
+  transition:transform .15s ease, box-shadow .15s ease;
+  position:relative;
+  overflow:hidden;
+}
+button:hover{transform:scale(1.05);}
+button:active{
+  transform:scale(.96);
+  box-shadow:0 0 20px rgba(255,77,109,.45);
+}
 .primary{background:#ff4d6d;color:white}
 
 /* INPUT */
-input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;font-size:1rem;margin-top:12px;}
+input{
+  width:100%;
+  max-width:320px;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  font-size:1rem;
+  margin-top:12px;
+}
 
 /* FLAVOR TEXT */
 .flavor{
   position:absolute;
-  font-family:'Courier New', monospace;
+  font-family:'Courier New',monospace;
   font-weight:bold;
   color:#ff4d6d;
   text-shadow:0 0 6px white,0 0 12px #ff4d6d;
@@ -70,15 +119,57 @@ input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;fon
   pointer-events:none;
 }
 @keyframes flavorAnim{
-  0%{opacity:0; transform:scale(0.7);}
-  10%{opacity:1; transform:scale(1);}
-  80%{opacity:1;}
-  100%{opacity:0; transform:scale(0.8);}
+  0%{opacity:0;transform:scale(.7)}
+  15%{opacity:1;transform:scale(1)}
+  85%{opacity:1}
+  100%{opacity:0;transform:scale(.85)}
 }
 
 /* OVERLAY */
-.overlay{position:absolute;inset:0;background:rgba(0,0,0,.9);display:none;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:white;padding:24px;}
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+}
 .overlay.active{display:flex}
+
+/* SPEAR EFFECT */
+.spear{
+  position:absolute;
+  width:4px;
+  height:120px;
+  background:red;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(45deg);
+  animation:spearAnim .6s forwards;
+}
+@keyframes spearAnim{
+  0%{transform:translate(-50%,-50%) rotate(45deg) scaleY(0);}
+  70%{transform:translate(-50%,-50%) rotate(45deg) scaleY(1.1);}
+  100%{transform:translate(-50%,-50%) rotate(45deg) scaleY(1);}
+}
+
+/* EXPLOSION EFFECT */
+.explode-piece{
+  position:absolute;
+  width:20px;height:20px;
+  background:#ff4d6d;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:1;
+  animation:explodeAnim 1s forwards;
+}
+@keyframes explodeAnim{
+  0%{transform:translate(0,0) scale(1);opacity:1;}
+  100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0;}
+}
 </style>
 </head>
 <body>
@@ -89,13 +180,12 @@ input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;fon
 <audio id="bgMusic" loop>
   <source src="children-of-the-city.mp3" type="audio/mpeg">
 </audio>
+<audio id="favMusic" loop>
+  <source src="sakai.mp3" type="audio/mpeg">
+</audio>
 
-<!-- HIDDEN FORM -->
 <form id="resultsForm" action="results.html" method="GET" style="display:none;">
-  <input type="hidden" name="question1" id="formQ1">
-  <input type="hidden" name="question2" id="formQ2">
-  <input type="hidden" name="question3" id="formQ3">
-  <input type="hidden" name="score" id="formScore">
+  <input type="hidden" name="choice" id="finalChoice">
 </form>
 
 <!-- PAGES -->
@@ -117,32 +207,32 @@ input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;fon
   <h1>Question 1</h1>
   <p>Do you like me???</p>
   <button onclick="correct()">Yes</button>
-  <button onclick="fail()">Nah</button>
-  <button onclick="fail()">Fuck off</button>
+  <button onclick="mcqNoEffect(this,1)">Nah</button>
+  <button onclick="mcqSecondEffect(this,1)">Fuck off</button>
 </section>
 
 <section class="page">
   <h1>Question 2</h1>
   <p>Do you wanna get marrieddd</p>
   <button onclick="correct()">YESS</button>
-  <button onclick="fail()">Yh ig</button>
-  <button onclick="fail()">Nah fuck off</button>
+  <button onclick="mcqNoEffect(this,2)">Yh ig</button>
+  <button onclick="mcqSecondEffect(this,2)">Nah fuck off</button>
 </section>
 
 <section class="page">
   <h1>Question 3</h1>
   <p>Do you think im weird?</p>
   <button onclick="correct()">Yes</button>
-  <button onclick="fail()">A lil bit</button>
-  <button onclick="fail()">Too much</button>
+  <button onclick="mcqNoEffect(this,3)">A lil bit</button>
+  <button onclick="mcqSecondEffect(this,3)">Too much</button>
 </section>
 
 <section class="page">
   <h1>Question 4</h1>
   <p>But do you like that?</p>
   <button onclick="correct()">Yes</button>
-  <button onclick="fail()">Nahhh</button>
-  <button onclick="fail()">Not really</button>
+  <button onclick="mcqNoEffect(this,4)">Nahhh</button>
+  <button onclick="mcqSecondEffect(this,4)">Not really</button>
 </section>
 
 <section class="page">
@@ -150,28 +240,67 @@ input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;fon
   <p>Are you ready to type?</p>
   <button onclick="correct()">Yes</button>
   <button onclick="correct()">Yes</button>
-  <button onclick="correct()">Yes</button>
+  <button onclick="mcqNoEffect(this,5)">Nope, break it</button>
 </section>
 
 <section class="page">
   <h1>One more thing</h1>
   <p>Why do you want me</p>
-  <input placeholder="TYPE!!!" id="input1">
+  <input>
   <button class="primary" onclick="next()">Next</button>
 </section>
 
 <section class="page">
   <h1>Another question</h1>
   <p>One thing you would want me to buy for you</p>
-  <input placeholder="TYPE TYPE!" id="input2">
+  <input>
   <button class="primary" onclick="next()">Next</button>
 </section>
 
 <section class="page">
   <h1>Last one</h1>
   <p>Whats one thing you dislike about me</p>
-  <input placeholder="Yeaaa type bro" id="input3">
+  <input>
   <button class="primary" onclick="goToPart2()">Continue</button>
+</section>
+
+<!-- PART 2 -->
+<section class="page" id="part2Page">
+  <h1>Part 2</h1>
+  <p contenteditable="true" style="border:1px solid #ccc;padding:12px;border-radius:8px;max-width:420px;">
+So... as you really know guys.. I like you so much, and if you remember last year's valentines, youd know i gave you 17(?) reasons why i love you. this isnt for valentines, but still here goes. I love you for your smile, your face, your belly, your lots of personalities, the way you walk, the way you talk, your voice, the way you handle me, the way you look at only me makes me feel special i hope you look at only me like that and not anyone else but i also like your feet, hands, neck, legs, bone structure, and genuinely everything about you i love your whole life and so i wanna ask...
+  </p>
+  <p>Do you want to be my girlfriend?</p>
+  <button class="primary" onclick="girlfriendYes()">Yes</button>
+  <button onclick="girlfriendNo(this)">No</button>
+</section>
+
+<!-- CONFIRM PAGES -->
+<section class="page">
+  <h1 contenteditable="true">Are you sure?</h1>
+  <button onclick="goToConfirm(1)">YESSSSSSSSSSSSSSSSSSSS</button>
+  <button onclick="goToConfirm(1)">yh</button>
+</section>
+
+<section class="page">
+  <h1 contenteditable="true">Like… really sure?</h1>
+  <button onclick="goToConfirm(2)">YES YES YESSSS</button>
+  <button onclick="goToConfirm(2)">yes</button>
+</section>
+
+<section class="page">
+  <h1 contenteditable="true">Absolutely sure?</h1>
+  <button onclick="goToConfirm(3)">YESSSSSS</button>
+  <button onclick="goToConfirm(3)">Yes</button>
+</section>
+
+<!-- FINAL PAGE -->
+<section class="page" id="finalPage">
+  <h1 contenteditable="true">Final Page</h1>
+  <p contenteditable="true">[Happy for ever and ever]</p>
+  <button onclick="submitResult('restart')">Restart</button>
+  <button contenteditable="true" onclick="submitResult('???')">Yay</button>
+  <button class="primary" onclick="submitResult('continue')">Yay</button>
 </section>
 
 <!-- FAIL -->
@@ -180,93 +309,47 @@ input{width:100%;max-width:320px;padding:14px;border-radius:14px;border:none;fon
   <button onclick="location.reload()">Close</button>
 </div>
 
-<!-- RESULT -->
-<div id="resultPage" class="overlay">
-  <h1 id="resultTitle"></h1>
-  <p id="resultText"></p>
-  <button id="part2Btn" style="display:none;" onclick="goToPart2()">Go to Part 2</button>
-  <button onclick="location.reload()">Restart</button>
-</div>
-
-<!-- PART 2 -->
-<section class="page" id="part2Page">
-  <h1>Part 2</h1>
-  <p contenteditable="true" style="border:1px solid #ccc;padding:12px;border-radius:8px;width:80%;max-width:400px;">
-So... as you really know guys.. I like you so much, and if you remember last year's valentines, youd know i gave you 17(?) reasons why i love you. this isnt for valentines, but still here goes. I love you for your smile, your face, your belly, your lots of personalities, the way you walk, the way you talk, your voice, the way you handle me, the way you look at only me makes me feel special i hope you look at only me like that and not anyone else but i also like your feet, hands, neck, legs, bone structure, and genuinely everything about you i love your whole life and so i wanna ask...
-  </p>
-  <p>Do you want to be my girlfriend? 
-    <input type="text" id="part2Input" placeholder="Yes or No" style="border:1px solid #ccc;padding:4px;border-radius:4px;width:60px;">
-  </p>
-  <button id="part2Yes">Yes</button>
-  <button id="option3" disabled style="opacity:0.5;">No</button>
-</section>
-
-<!-- PART 3 -->
-<section class="page" id="part3Page">
-  <h1>Nice</h1>
-  <p contenteditable="true" style="border:1px solid #ccc;padding:12px;border-radius:8px;width:80%;max-width:400px;">
-Write something fun here...
-  </p>
-  <button class="primary" onclick="location.reload()">Restart</button>
-</section>
-
 <script>
-let pages=document.querySelectorAll(".page"), current=0, score=0, musicStarted=false;
+let pages=document.querySelectorAll(".page");
+let current=0;
+let score=0;
+let musicStarted=false;
+let mcqSecondUsed={};
 
-/* MUSIC */
+// START
 function startExperience(){
   if(!musicStarted){
     musicStarted=true;
     const m=document.getElementById("bgMusic");
-    m.volume=0;
-    m.play().then(()=>{
-      setTimeout(()=>{
-        let v=0;
-        let fade=setInterval(()=>{
-          v+=0.02;
-          m.volume=Math.min(v,.25);
-          if(v>=.25) clearInterval(fade);
-        },150);
-      },2710);
-    });
+    m.volume=0;m.play();
+    let v=0;
+    let fade=setInterval(()=>{v+=0.02;m.volume=Math.min(v,.25);if(v>=.25) clearInterval(fade)},150);
   }
   next();
 }
 
-/* NAV */
-function next(){pages[current].classList.remove("active");current++;if(pages[current]) pages[current].classList.add("active");}
-function correct(){score++;updateProgress();spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]);next();}
+function next(){pages[current].classList.remove("active");current++;pages[current].classList.add("active");}
+function correct(){score++;document.getElementById("progress-bar").style.width=(score/5*100)+"%";spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]);next();}
 function fail(){document.getElementById("failPage").classList.add("active");}
+function goToPart2(){pages[current].classList.remove("active");current=[...pages].findIndex(p=>p.id==="part2Page");pages[current].classList.add("active");}
+function goToConfirm(offset){pages[current].classList.remove("active");current=[...pages].findIndex(p=>p.id==="part2Page")+1+offset;pages[current].classList.add("active");}
+function submitResult(choice){document.getElementById("finalChoice").value=choice;document.getElementById("resultsForm").submit();}
 
-/* SEND RESULTS */
-function sendResults(){
-  document.getElementById("formQ1").value=document.getElementById("input1").value;
-  document.getElementById("formQ2").value=document.getElementById("input2").value;
-  document.getElementById("formQ3").value=document.getElementById("input3").value;
-  document.getElementById("formScore").value=score;
-  document.getElementById("resultsForm").submit();
-}
-
-/* PROGRESS */
-function updateProgress(){document.getElementById("progress-bar").style.width=(score/5*100)+"%";}
-
-/* FLAVOR TEXT */
-const flavorTexts=["Its time for another vendetta","Mommy","Hiiii","Cutie wutie","I desperately wish to be included in the city's light.","2.71828182845904523536...","0287471352662497757..","2510136111515741166772","I love you","Wifey"];
+const flavorTexts=["Its time for another vendetta","Mommy","Hiiii","Cutie wutie","Wife","2.71828182845904523536...","I love you","Wifey","Baby","I miss you","I want to feel your touch","Was so tired i couldnt finish this all im sorry"];
 function spawnFlavor(text){
   let f=document.createElement("div");
   f.className="flavor";
   f.innerText=text;
   f.style.left=Math.random()*80+"vw";
   f.style.top=Math.random()*80+"vh";
-  f.style.transform="rotate("+(Math.random()*30-15)+"deg)";
   f.style.fontSize=(14+Math.random()*10)+"px";
-  document.body.appendChild(f);
   f.style.animationDuration=(3+Math.random()*2)+"s";
+  document.body.appendChild(f);
   setTimeout(()=>f.remove(),4000);
 }
-setInterval(()=>{spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]);},1200);
+setInterval(()=>spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]),1400);
 
-/* VIDEOS & IMAGES */
+/* MEDIA SPAWN */
 const vids=["vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4"];
 const imgs=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg","img6.jpeg"];
 const layer=document.getElementById("video-layer");
@@ -274,66 +357,158 @@ const layer=document.getElementById("video-layer");
 function spawnVideo(){
   let v=document.createElement("video");
   v.src=vids[Math.floor(Math.random()*vids.length)];
-  v.className="float-video";
-  v.autoplay=true;v.loop=true;v.muted=true;v.playsInline=true;
-  v.style.opacity=0.45;
-  const startX=Math.random()*80+"vw";
-  const endX=Math.random()*80+"vw";
-  const startY=Math.random()*-50+"vh";
-  const endY=Math.random()*100+50+"vh";
-  v.style.setProperty("--startX",startX);
-  v.style.setProperty("--endX",endX);
-  v.style.setProperty("--startY",startY);
-  v.style.setProperty("--endY",endY);
-  v.style.setProperty("--startRot",Math.random()*60-30+"deg");
-  v.style.setProperty("--endRot",Math.random()*60-30+"deg");
-  let dur=15+Math.random()*5;
-  v.style.animationDuration=dur+"s";
-  layer.appendChild(v);
-  setTimeout(()=>v.remove(),dur*1000);
+  v.className="float-video";v.autoplay=true;v.loop=true;v.muted=true;
+  v.style.setProperty("--startX",Math.random()*80+"vw");
+  v.style.setProperty("--endX",Math.random()*80+"vw");
+  v.style.setProperty("--startY","-40vh");
+  v.style.setProperty("--endY","140vh");
+  v.style.setProperty("--startRot",Math.random()*80-40+"deg");
+  v.style.setProperty("--endRot",Math.random()*80-40+"deg");
+  v.style.animationDuration="18s";layer.appendChild(v);
+  setTimeout(()=>v.remove(),18000);
 }
-
 function spawnImage(){
   let i=document.createElement("img");
   i.src=imgs[Math.floor(Math.random()*imgs.length)];
   i.className="float-img";
-  i.style.opacity=0.45;
-  const startX=Math.random()*80+"vw";
-  const endX=Math.random()*80+"vw";
-  const startY=Math.random()*-50+"vh";
-  const endY=Math.random()*100+50+"vh";
-  i.style.setProperty("--startX",startX);
-  i.style.setProperty("--endX",endX);
-  i.style.setProperty("--startY",startY);
-  i.style.setProperty("--endY",endY);
-  i.style.setProperty("--startRot",Math.random()*60-30+"deg");
-  i.style.setProperty("--endRot",Math.random()*60-30+"deg");
-  let dur=18+Math.random()*6;
-  i.style.animationDuration=dur+"s";
-  layer.appendChild(i);
-  setTimeout(()=>i.remove(),dur*1000);
+  i.style.setProperty("--startX",Math.random()*80+"vw");
+  i.style.setProperty("--endX",Math.random()*80+"vw");
+  i.style.setProperty("--startY","-40vh");
+  i.style.setProperty("--endY","140vh");
+  i.style.setProperty("--startRot",Math.random()*80-40+"deg");
+  i.style.setProperty("--endRot",Math.random()*80-40+"deg");
+  i.style.animationDuration="20s";layer.appendChild(i);
+  setTimeout(()=>i.remove(),20000);
 }
-setInterval(spawnVideo,4000);
-setInterval(spawnImage,5000);
+let videoInterval=setInterval(spawnVideo,4200);
+let imgInterval=setInterval(spawnImage,5200);
 
-/* PART 2 BUTTON LOGIC */
-document.getElementById("part2Yes").addEventListener("click", ()=>{
-  const val=document.getElementById("part2Input").value.trim().toLowerCase();
-  if(val==="yes"){
-    pages[current].classList.remove("active");
-    current=Array.from(pages).findIndex(p=>p.id==="part3Page");
-    pages[current].classList.add("active");
+/* MCQ NO BUTTON EFFECTS */
+function mcqNoEffect(btn,id){
+  const rect=btn.getBoundingClientRect();
+  switch(id){
+    case 1: explodeButton(btn); setTimeout(next,600); break;
+    case 2: btn.style.transition="all .6s ease"; btn.style.transform="translateX(120vw) rotate(720deg)"; setTimeout(next,600); break;
+    case 3: let yesBtn=btn.parentNode.querySelector('button'); btn.style.transition="all .6s ease"; btn.style.transform="translate("+ (yesBtn.offsetLeft-btn.offsetLeft) +"px,"+ (yesBtn.offsetTop-btn.offsetTop) +"px)"; setTimeout(next,600); break;
+    case 4: btn.style.transition="opacity .6s ease"; btn.style.opacity=0; setTimeout(next,600); break;
+    case 5: explodeButton(btn); setTimeout(goToFavPics,600); break;
   }
-});
+}
 
-/* GO TO PART 2 FROM LAST PAGE */
-function goToPart2(){
-  // Remove current
-  pages[current].classList.remove("active");
-  current=Array.from(pages).findIndex(p=>p.id==="part2Page");
-  pages[current].classList.add("active");
-  document.getElementById("option3").disabled=true;
-  document.getElementById("option3").style.opacity=0.5;
+/* MCQ SECOND BUTTON EFFECTS */
+function mcqSecondEffect(btn,id){
+  if(mcqSecondUsed[id]){next(); return;} 
+  mcqSecondUsed[id]=true;
+  btn.style.transition="all 1s ease";
+  btn.style.transform="rotate(720deg) scale(1.3)";
+  setTimeout(next,1000);
+}
+
+// GIRLFRIEND NO SPEAR
+function girlfriendNo(btn){
+  let spear=document.createElement("div");
+  spear.className="spear";
+  document.body.appendChild(spear);
+  setTimeout(()=>{spear.remove();goToFavPics();},700);
+}
+
+// GIRLFRIEND YES
+function girlfriendYes(){goToConfirm(0);}
+
+// EXPLOSION
+function explodeButton(btn){
+  const rect=btn.getBoundingClientRect();
+  for(let i=0;i<8;i++){
+    let piece=document.createElement("div");
+    piece.className="explode-piece";
+    piece.style.left=rect.left+rect.width/2+"px";
+    piece.style.top=rect.top+rect.height/2+"px";
+    piece.style.setProperty("--x",(Math.random()-0.5)*200+"px");
+    piece.style.setProperty("--y",(Math.random()-0.5)*200+"px");
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(),1000);
+  }
+}
+
+/* FAV PICS PAGE */
+function goToFavPics(){
+  pages.forEach(p=>p.classList.remove("active"));
+  clearInterval(videoInterval); clearInterval(imgInterval);
+  document.getElementById("bgMusic").pause();
+  showFavPicsPage();
+}
+
+function showFavPicsPage(){
+  const favPage=document.createElement("section");
+  favPage.className="page active";
+  favPage.innerHTML=`<h1>was supposed to be a gallery of fav pics but didnt work ig</h1>`;
+  document.body.appendChild(favPage);
+
+  const music=document.getElementById("favMusic");
+  music.currentTime=83; // start at 1:23
+  music.volume=0;
+  music.play();
+  let v=0;
+  let fade=setInterval(()=>{v+=0.02;music.volume=Math.min(v,0.3);if(v>=0.3) clearInterval(fade)},150);
+
+const vids=["vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4"];
+const imgs=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg","img6.jpeg"];
+const layer=document.getElementById("video-layer");
+
+
+  // first 4 fpics
+  for(let i=0;i<4;i++){
+    let img=document.createElement("img");
+    img.src=fpics[i]; img.className="fpic";
+    img.style.left=(10+i*20)+"vw";
+    img.style.top="-40vh";
+    img.style.setProperty("--endY","140vh");
+    img.style.animationDuration="25s";
+    favPage.appendChild(img);
+    setTimeout(()=>img.remove(),25000);
+  }
+
+  // rest fpics and fimgs sequentially
+  let delay=0;
+  for(let i=4;i<fpics.length;i++){
+    setTimeout(()=>{
+      let img=document.createElement("img");
+      img.src=fpics[i];img.className="fpic";
+      img.style.left=(Math.random()*70+10)+"vw";
+      img.style.top="-40vh";
+      img.style.setProperty("--endY","140vh");
+      img.style.animationDuration="22s";
+      favPage.appendChild(img);
+      setTimeout(()=>img.remove(),22000);
+    },delay);
+    delay+=2200;
+  }
+  for(let i=0;i<fimgs.length;i++){
+    setTimeout(()=>{
+      let img=document.createElement("img");
+      img.src=fimgs[i];img.className="fpic";
+      img.style.left=(Math.random()*70+10)+"vw";
+      img.style.top="-40vh";
+      img.style.setProperty("--endY","140vh");
+      img.style.animationDuration="22s";
+      favPage.appendChild(img);
+      setTimeout(()=>img.remove(),22000);
+    },delay);
+    delay+=2200;
+  }
+  for(let i=0;i<fvids.length;i++){
+    setTimeout(()=>{
+      let v=document.createElement("video");
+      v.src=fvids[i];v.className="fvid";v.autoplay=true;v.loop=true;v.muted=true;
+      v.style.left=(Math.random()*70+10)+"vw";
+      v.style.top="-40vh";
+      v.style.setProperty("--endY","140vh");
+      v.style.animationDuration="20s";
+      favPage.appendChild(v);
+      setTimeout(()=>v.remove(),20000);
+    },delay);
+    delay+=2000;
+  }
 }
 </script>
 </body>
