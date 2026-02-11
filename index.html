@@ -3,35 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Valentine's Day</title>
-    <style>
-        body {
-            background-color: #ffcccb;
-            text-align: center;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 50px;
-        }
-        h1 {
-            color: #c71585;
-            font-size: 50px;
-        }
-        .falling {
-            position: absolute;
-            animation: fall 10s infinite;
-        }
-        @keyframes fall {
-            0% { top: -10%; }
-            100% { top: 100%; }
-        }
-    </style>
+    <title>Valentine's Day Celebration</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favimg1.jpeg" type="image/jpeg">
+    <script src="script.js"></script>
 </head>
 <body>
-    <h1>Happy Valentine's Day</h1>
-    <img src="path/to/heart.png" class="falling" style="left: 10%;" />
-    <img src="path/to/rose.png" class="falling" style="left: 30%;" />
-    <img src="path/to/chocolate.png" class="falling" style="left: 50%;" />
-    <img src="path/to/cupcake.png" class="falling" style="left: 70%;" />
-    <img src="path/to/love-video.mp4" class="falling" style="left: 90%;" />
+    <header>
+        <h1>Happy Valentine’s Day!</h1>
+    </header>
+    <section>
+        <h2>Celebrate Love</h2>
+        <img src="favpic1.jpeg" alt="Love" class="interactive">
+        <video src="favvid1.mp4"controls></video>
+    </section>
+    <footer>
+        <audio controls>
+            <source src="sakai.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </footer>
+    <script>
+        // Code for falling animations and particle effects
+        // Sample interactive feature code
+        document.querySelector('.interactive').addEventListener('click', () => {
+            alert("Happy Valentine’s Day!");
+        });
+    </script>
 </body>
 </html>
