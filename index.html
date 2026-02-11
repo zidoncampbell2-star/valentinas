@@ -3,26 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Audio Test</title>
-</head>
-<body>
-    <h1>Welcome to the Audio Test</h1>
-    <audio id="audio" src="sakai.mp3" preload="auto" muted></audio>
-    <button id="unmuteBtn">Click to Unmute</button>
-    <script>
-        const audio = document.getElementById('audio');
-        const unmuteBtn = document.getElementById('unmuteBtn');
-
-        // Function to handle audio playback on user interaction
-        function handleAudioPlayback() {
-            audio.muted = false;
-            audio.play();
-            unmuteBtn.style.display = 'none'; // Hide button after unmuting
+    <title>Happy Valentine's Day!</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff5c8a, #ff7e5f);
+            overflow: hidden;
+            animation: gradient 15s ease infinite;
         }
 
-        // Check for user interaction
-document.addEventListener('click', handleAudioPlayback);
-        unmuteBtn.addEventListener('click', handleAudioPlayback);
+        @keyframes gradient {
+            0% {background: linear-gradient(135deg, #ff5c8a, #ff7e5f);}
+            50% {background: linear-gradient(135deg, #ff7e5f, #ff5c8a);}
+            100% {background: linear-gradient(135deg, #ff5c8a, #ff7e5f);}
+        }
+
+        .music-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            background: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {transform: scale(1);}
+            50% {transform: scale(1.1);}
+            100% {transform: scale(1);}
+        }
+
+        .heart {
+            position: absolute;
+            animation: fall 10s infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {top: -10%;}
+            100% {top: 110%;}
+        }
+    </style>
+</head>
+<body>
+
+    <button class="music-button" onclick="toggleMusic()">🎵 Play Music</button>
+
+    <audio id="music" autoplay loop>
+        <source src="path/to/your/music.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        let musicPlaying = true;
+        const music = document.getElementById('music');
+
+        function toggleMusic() {
+            musicPlaying ? music.pause() : music.play();
+            musicPlaying = !musicPlaying;
+        }
+
+        function createHeart() {
+            const heart = document.createElement('img');
+            heart.src = 'path/to/heart.png'; // Change to your heart image
+            heart.className = 'heart';
+            heart.style.left = Math.random() * window.innerWidth + 'px';
+            heart.style.width = '25px';
+            document.body.appendChild(heart);
+
+            heart.addEventListener('animationend', () => {
+                heart.remove();
+            });
+        }
+
+        setInterval(createHeart, 500); // Create a heart every 500 ms
     </script>
 </body>
 </html>
