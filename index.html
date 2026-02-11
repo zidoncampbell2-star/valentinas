@@ -3,32 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Day Celebration</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="favimg1.jpeg" type="image/jpeg">
-    <script src="script.js"></script>
+    <link rel="icon" href="favimg1.png" type="image/png">
+    <title>Valentina's Page</title>
+    <style>
+        /* Add your styles here */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        /* Falling animations */
+        .fall {
+            position: absolute;
+            animation: fall 5s infinite;
+        }
+        @keyframes fall {
+            0% { top: -10%; }
+            100% { top: 100%; }
+        }
+    </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Autoplay music
+            var audio = document.createElement('audio');
+            audio.src = 'your_music_file.mp3';  // Replace with your actual music file
+            audio.autoplay = true;
+            audio.loop = true;  // Optional: Loop the music
+            document.body.appendChild(audio);
+
+            // Start falling animations
+            startFallingAnimations();
+        });
+        function startFallingAnimations() {
+            // Code to create and start falling animations
+            for(let i = 0; i < 100; i++) {
+                let particle = document.createElement('div');
+                particle.className = 'fall';
+                particle.style.left = Math.random() * 100 + 'vw';
+                document.body.appendChild(particle);
+            }
+        }
+    </script>
 </head>
 <body>
-    <header>
-        <h1>Happy Valentine’s Day!</h1>
-    </header>
-    <section>
-        <h2>Celebrate Love</h2>
-        <img src="favpic1.jpeg" alt="Love" class="interactive">
-        <video src="favvid1.mp4"controls></video>
-    </section>
-    <footer>
-        <audio controls>
-            <source src="sakai.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio>
-    </footer>
-    <script>
-        // Code for falling animations and particle effects
-        // Sample interactive feature code
-        document.querySelector('.interactive').addEventListener('click', () => {
-            alert("Happy Valentine’s Day!");
-        });
-    </script>
+    <h1>Welcome to Valentina's Page</h1>
+    <div id="content">
+        <img src="favpic1.png" alt="Favorite Picture 1">
+        <img src="favpic2.png" alt="Favorite Picture 2">
+        <video controls>
+            <source src="favvid1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <!-- Include other media files as needed -->
+    </div>
 </body>
 </html>
