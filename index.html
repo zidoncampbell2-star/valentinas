@@ -3,19 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentina's Page</title>
+    <title>Audio Test</title>
 </head>
 <body>
-    <h1>Welcome to Valentina's Page!</h1>
-    <audio autoplay loop>
-        <source src="path/to/your/music.mp3" type="audio/mpeg">
-        Your browser does not support the audio tag.
-    </audio>
-    <div id="animation">
-        <!-- Your animation code here -->
-    </div>
+    <h1>Welcome to the Audio Test</h1>
+    <audio id="audio" src="sakai.mp3" preload="auto" muted></audio>
+    <button id="unmuteBtn">Click to Unmute</button>
     <script>
-        // Your animation logic here
+        const audio = document.getElementById('audio');
+        const unmuteBtn = document.getElementById('unmuteBtn');
+
+        // Function to handle audio playback on user interaction
+        function handleAudioPlayback() {
+            audio.muted = false;
+            audio.play();
+            unmuteBtn.style.display = 'none'; // Hide button after unmuting
+        }
+
+        // Check for user interaction
+document.addEventListener('click', handleAudioPlayback);
+        unmuteBtn.addEventListener('click', handleAudioPlayback);
     </script>
 </body>
 </html>
