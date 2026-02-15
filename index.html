@@ -1,63 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Valentine's Day Celebration</title>
-    <style>
-        body {
-            background: linear-gradient(135deg, #f8a3d0, #ff6b81);
-            overflow: hidden;
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: backgroundAnimation 5s infinite alternate;
-        }
-        @keyframes backgroundAnimation {
-            0% {
-                background: linear-gradient(135deg, #f8a3d0, #ff6b81);
-            }
-            100% {
-                background: linear-gradient(135deg, #ff6b81, #f8a3d0);
-            }
-        }
-        img, video {
-            width: 300px;
-            height: auto;
-            animation: fall 10s infinite;
-            position: absolute;
-        }
-        @keyframes fall {
-            0% {
-                transform: translateY(-100vh);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh);
-                opacity: 0;
-            }
-        }
-        h1 {
-            font-family: 'Arial', sans-serif;
-            color: white;
-            text-align: center;
-            z-index: 1;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hey</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  background:linear-gradient(135deg,#ffccd5,#ffe5ec);
+  height:100vh;
+  overflow:hidden;
+}
+
+/* VIDEO & IMAGE LAYER */
+#video-layer{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  overflow:hidden;
+  z-index:-2;
+}
+.float-video,.float-img,.fpic,.fvid{
+  position:absolute;
+  width:140px;
+  max-width:35vw;
+  opacity:.38;
+  border-radius:12px;
+  animation:drift linear forwards;
+}
+
+/* DRIFT */
+@keyframes drift{
+  0%{transform:translate(var(--startX),var(--startY)) rotate(var(--startRot));opacity:0;}
+  10%{opacity:.38;}
+  90%{opacity:.38;}
+  100%{transform:translate(var(--endX),var(--endY)) rotate(var(--endRot));opacity:0;}
+}
+
+/* PAGE SYSTEM */
+.page{
+  position:absolute;
+  inset:0;
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:24px;
+  animation:fadeIn .6s ease;
+}
+.page.active{display:flex}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(12px)}
+  to{opacity:1;transform:none}
+}
+
+h1{font-size:2rem;margin-bottom:12px}
+p{font-size:1.1rem;max-width:420px;opacity:.9}
+
+/* PROGRESS */
+#progress-container{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:6px;
+  background:rgba(255,255,255,.3)
+}
+#progress-bar{
+  height:100%;
+  width:0%;
+  background:#ff4d6d;
+  transition:width .4s ease
+}
+
+/* BUTTONS */
+button{
+  width:100%;
+  max-width:320px;
+  padding:14px;
+  margin:10px 0;
+  border:none;
+  border-radius:18px;
+  font-size:1rem;
+  background:white;
+  cursor:pointer;
+  box-shadow:0 4px 6px rgba(0,0,0,.15);
+  transition:transform .15s ease, box-shadow .15s ease;
+  position:relative;
+  overflow:hidden;
+}
+button:hover{transform:scale(1.05);}
+button:active{
+  transform:scale(.96);
+  box-shadow:0 0 20px rgba(255,77,109,.45);
+}
+.primary{background:#ff4d6d;color:white}
+
+/* INPUT */
+input{
+  width:100%;
+  max-width:320px;
+  padding:14px;
+  border-radius:14px;
+  border:none;
+  font-size:1rem;
+  margin-top:12px;
+}
+
+/* FLAVOR TEXT */
+.flavor{
+  position:absolute;
+  font-family:'Courier New',monospace;
+  font-weight:bold;
+  color:#ff4d6d;
+  text-shadow:0 0 6px white,0 0 12px #ff4d6d;
+  animation:flavorAnim linear forwards;
+  pointer-events:none;
+}
+@keyframes flavorAnim{
+  0%{opacity:0;transform:scale(.7)}
+  15%{opacity:1;transform:scale(1)}
+  85%{opacity:1}
+  100%{opacity:0;transform:scale(.85)}
+}
+
+/* OVERLAY */
+.overlay{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.9);
+  display:none;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  color:white;
+}
+.overlay.active{display:flex}
+
+/* SPEAR EFFECT */
+.spear{
+  position:absolute;
+  width:4px;
+  height:120px;
+  background:red;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) rotate(45deg);
+  animation:spearAnim .6s forwards;
+}
+@keyframes spearAnim{
+  0%{transform:translate(-50%,-50%) rotate(45deg) scaleY(0);}
+  70%{transform:translate(-50%,-50%) rotate(45deg) scaleY(1.1);}
+  100%{transform:translate(-50%,-50%) rotate(45deg) scaleY(1);}
+}
+
+/* EXPLOSION EFFECT */
+.explode-piece{
+  position:absolute;
+  width:20px;height:20px;
+  background:#ff4d6d;
+  border-radius:50%;
+  pointer-events:none;
+  opacity:1;
+  animation:explodeAnim 1s forwards;
+}
+@keyframes explodeAnim{
+  0%{transform:translate(0,0) scale(1);opacity:1;}
+  100%{transform:translate(var(--x),var(--y)) scale(0);opacity:0;}
+}
+</style>
 </head>
 <body>
-    <h1>Happy Valentine's Day!</h1>
-    <audio autoplay loop>
-        <source src="path/to/your/music.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <img src="path/to/your/image1.png" alt="Valentine Image 1">
-    <img src="path/to/your/image2.png" alt="Valentine Image 2">
-    <video autoplay loop muted>
-        <source src="path/to/your/video.mp4" type="video/mp4">
-        Your browser does not support the video element.
-    </video>
+
+<div id="progress-container"><div id="progress-bar"></div></div>
+<div id="video-layer"></div>
+
+<audio id="bgMusic" loop>
+  <source src="children-of-the-city.mp3" type="audio/mpeg">
+</audio>
+<audio id="favMusic" loop>
+  <source src="sakai.mp3" type="audio/mpeg">
+</audio>
+
+<form id="resultsForm" action="results.html" method="GET" style="display:none;">
+  <input type="hidden" name="choice" id="finalChoice">
+</form>
+
+<!-- PAGES -->
+<section class="page active">
+  <h1>Hey mommy</h1>
+  <p>I made something i guess</p>
+  <button class="primary" onclick="startExperience()">Tap tap</button>
+  <button onclick="fail()">Not right now</button>
+</section>
+
+<section class="page">
+  <h1>Before we continue</h1>
+  <p>I have sum to sayyy</p>
+  <button class="primary" onclick="next()">Continue!!!</button>
+  <button onclick="fail()">No</button>
+</section>
+
+<section class="page">
+  <h1>Question 1</h1>
+  <p>Do you like me???</p>
+  <button onclick="correct()">Obviously </button>
+  <button onclick="mcqNoEffect(this,1)">Nah</button>
+  <button onclick="mcqSecondEffect(this,1)">Fuck off</button>
+</section>
+
+<section class="page">
+  <h1>Question 2</h1>
+  <p>Do you wanna get married to meeee</p>
+  <button onclick="correct()">YESS</button>
+  <button onclick="mcqNoEffect(this,2)">Yh ig</button>
+  <button onclick="mcqSecondEffect(this,2)">Nah fuck off</button>
+</section>
+
+<section class="page">
+  <h1>Question 3</h1>
+  <p>Do you think im weird?</p>
+  <button onclick="correct()">Yes..</button>
+  <button onclick="mcqNoEffect(this,3)">A lil bit</button>
+  <button onclick="mcqSecondEffect(this,3)">Too much</button>
+</section>
+
+<section class="page">
+  <h1>Question 4</h1>
+  <p>But do you like that?</p>
+  <button onclick="correct()">Yessss</button>
+  <button onclick="mcqNoEffect(this,4)">Nahhh</button>
+  <button onclick="mcqSecondEffect(this,4)">Not really</button>
+</section>
+
+<section class="page">
+  <h1>Question 5</h1>
+  <p>Are you ready to type?</p>
+  <button onclick="correct()">Yes</button>
+  <button onclick="correct()">Yes</button>
+  <button onclick="mcqNoEffect(this,5)">Nope, break it</button>
+</section>
+
+<section class="page">
+  <h1>One more thing</h1>
+  <p>Why do you want me</p>
+  <input>
+  <button class="primary" onclick="next()">Next</button>
+</section>
+
+<section class="page">
+  <h1>Another question</h1>
+  <p>One thing you would want me to buy for you</p>
+  <input>
+  <button class="primary" onclick="next()">Next</button>
+</section>
+
+<section class="page">
+  <h1>Last one</h1>
+  <p>Whats one thing you dislike about me</p>
+  <input>
+  <button class="primary" onclick="goToPart2()">Continue</button>
+</section>
+  
+<!-- PART 2 -->
+<section class="page" id="part2Page">
+  <h1>Part 2</h1>
+  <p contenteditable="true" style="border:1px solid #ccc;padding:12px;border-radius:8px;max-width:420px;">
+So... as you really know guys.. I like you so much, and if you remember last year's valentines, youd know i gave you reasons why i love you.i love you for your smile, everytime i make you happy and see your smile it just makes me so happy.I love your face its so beautiful to look at. I love your belly,its so attractive. I love you for your lots of personalities. I love the way you walk, the way you talk,as your voice is so attractive. the way you handle me its so nice. the way you look at only me makes me feel special i hope you look at only me like that, it makes me feel so comfortable. I LOVE your feet dont let me get started on that. Your hands, neck, legs, bone structure, theyre all so nice. I love your personality and i could go on and on and genuinely everything I love everything about you i love your whole life and so i wanna ask...
+  </p>
+  <p>Do you want to be my girlfriend?</p>
+  <button class="primary" onclick="girlfriendYes()">Yes</button>
+  <button onclick="girlfriendNo(this)">No</button>
+</section>
+
+<!-- CONFIRM PAGES -->
+<section class="page">
+  <h1 contenteditable="true">Are you sure? make sure..</h1>
+  <button onclick="goToConfirm(1)">YESSSSSSSSSSSSSSSSSSSS</button>
+  <button onclick="goToConfirm(1)">yh</button>
+</section>
+
+<section class="page">
+  <h1 contenteditable="true">Like… really sure?</h1>
+  <button onclick="goToConfirm(2)">YES YES YESSSS</button>
+  <button onclick="goToConfirm(2)">yes</button>
+</section>
+
+<section class="page">
+  <h1 contenteditable="true">Absolutely sure????</h1>
+  <button onclick="goToConfirm(3)">YESSSSSS</button>
+  <button onclick="goToConfirm(3)">Yes</button>
+</section>
+
+<!-- FINAL PAGE -->
+<section class="page" id="finalPage">
+  <h1 contenteditable="true">You made it</h1>
+  <p contenteditable="true">I love you</p>
+  <button onclick="submitResult('restart')">Start over</button>
+  <button contenteditable="true" onclick="submitResult('???')">Yay?</button>
+  <button class="primary" onclick="submitResult('continue')">Yay in pink</button>
+</section>
+
+<!-- FAIL -->
+<div id="failPage" class="overlay">
+  <h1>Oh.</h1>
+  <button onclick="location.reload()">Close</button>
+</div>
+
+<script>
+let pages=document.querySelectorAll(".page");
+let current=0;
+let score=0;
+let musicStarted=false;
+let mcqSecondUsed={};
+
+// START
+function startExperience(){
+  if(!musicStarted){
+    musicStarted=true;
+    const m=document.getElementById("bgMusic");
+    m.volume=0;m.play();
+    let v=0;
+    let fade=setInterval(()=>{v+=0.02;m.volume=Math.min(v,.25);if(v>=.25) clearInterval(fade)},150);
+  }
+  next();
+}
+
+function next(){pages[current].classList.remove("active");current++;pages[current].classList.add("active");}
+function correct(){score++;document.getElementById("progress-bar").style.width=(score/5*100)+"%";spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]);next();}
+function fail(){document.getElementById("failPage").classList.add("active");}
+function goToPart2(){pages[current].classList.remove("active");current=[...pages].findIndex(p=>p.id==="part2Page");pages[current].classList.add("active");}
+function goToConfirm(offset){pages[current].classList.remove("active");current=[...pages].findIndex(p=>p.id==="part2Page")+1+offset;pages[current].classList.add("active");}
+function submitResult(choice){document.getElementById("finalChoice").value=choice;document.getElementById("resultsForm").submit();}
+
+const flavorTexts=["Its time for another vendetta","Mommy","Hiiii","Cutie wutie","Wife","2.71828182845904523536...","I love you","Wifey","Baby","I miss you","I want to feel your touch","Mwah"];
+function spawnFlavor(text){
+  let f=document.createElement("div");
+  f.className="flavor";
+  f.innerText=text;
+  f.style.left=Math.random()*80+"vw";
+  f.style.top=Math.random()*80+"vh";
+  f.style.fontSize=(14+Math.random()*10)+"px";
+  f.style.animationDuration=(3+Math.random()*2)+"s";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),4000);
+}
+setInterval(()=>spawnFlavor(flavorTexts[Math.floor(Math.random()*flavorTexts.length)]),1400);
+
+/* MEDIA SPAWN */
+const vids=["vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4"];
+const imgs=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg","img6.jpeg"];
+const layer=document.getElementById("video-layer");
+
+function spawnVideo(){
+  let v=document.createElement("video");
+  v.src=vids[Math.floor(Math.random()*vids.length)];
+  v.className="float-video";v.autoplay=true;v.loop=true;v.muted=true;
+  v.style.setProperty("--startX",Math.random()*80+"vw");
+  v.style.setProperty("--endX",Math.random()*80+"vw");
+  v.style.setProperty("--startY","-40vh");
+  v.style.setProperty("--endY","140vh");
+  v.style.setProperty("--startRot",Math.random()*80-40+"deg");
+  v.style.setProperty("--endRot",Math.random()*80-40+"deg");
+  v.style.animationDuration="18s";layer.appendChild(v);
+  setTimeout(()=>v.remove(),18000);
+}
+function spawnImage(){
+  let i=document.createElement("img");
+  i.src=imgs[Math.floor(Math.random()*imgs.length)];
+  i.className="float-img";
+  i.style.setProperty("--startX",Math.random()*80+"vw");
+  i.style.setProperty("--endX",Math.random()*80+"vw");
+  i.style.setProperty("--startY","-40vh");
+  i.style.setProperty("--endY","140vh");
+  i.style.setProperty("--startRot",Math.random()*80-40+"deg");
+  i.style.setProperty("--endRot",Math.random()*80-40+"deg");
+  i.style.animationDuration="20s";layer.appendChild(i);
+  setTimeout(()=>i.remove(),20000);
+}
+let videoInterval=setInterval(spawnVideo,4200);
+let imgInterval=setInterval(spawnImage,5200);
+
+/* MCQ NO BUTTON EFFECTS */
+function mcqNoEffect(btn,id){
+  const rect=btn.getBoundingClientRect();
+  switch(id){
+    case 1: explodeButton(btn); setTimeout(next,600); break;
+    case 2: btn.style.transition="all .6s ease"; btn.style.transform="translateX(120vw) rotate(720deg)"; setTimeout(next,600); break;
+    case 3: let yesBtn=btn.parentNode.querySelector('button'); btn.style.transition="all .6s ease"; btn.style.transform="translate("+ (yesBtn.offsetLeft-btn.offsetLeft) +"px,"+ (yesBtn.offsetTop-btn.offsetTop) +"px)"; setTimeout(next,600); break;
+    case 4: btn.style.transition="opacity .6s ease"; btn.style.opacity=0; setTimeout(next,600); break;
+    case 5: explodeButton(btn); setTimeout(goToFavPics,600); break;
+  }
+}
+
+/* MCQ SECOND BUTTON EFFECTS */
+function mcqSecondEffect(btn,id){
+  if(mcqSecondUsed[id]){next(); return;} 
+  mcqSecondUsed[id]=true;
+  btn.style.transition="all 1s ease";
+  btn.style.transform="rotate(720deg) scale(1.3)";
+  setTimeout(next,1000);
+}
+
+// GIRLFRIEND NO SPEAR
+function girlfriendNo(btn){
+  let spear=document.createElement("div");
+  spear.className="spear";
+  document.body.appendChild(spear);
+  setTimeout(()=>{spear.remove();goToFavPics();},700);
+}
+
+// GIRLFRIEND YES
+function girlfriendYes(){goToConfirm(0);}
+
+// EXPLOSION
+function explodeButton(btn){
+  const rect=btn.getBoundingClientRect();
+  for(let i=0;i<8;i++){
+    let piece=document.createElement("div");
+    piece.className="explode-piece";
+    piece.style.left=rect.left+rect.width/2+"px";
+    piece.style.top=rect.top+rect.height/2+"px";
+    piece.style.setProperty("--x",(Math.random()-0.5)*200+"px");
+    piece.style.setProperty("--y",(Math.random()-0.5)*200+"px");
+    document.body.appendChild(piece);
+    setTimeout(()=>piece.remove(),1000);
+  }
+}
+
+/* FAV PICS PAGE */
+function goToFavPics(){
+  pages.forEach(p=>p.classList.remove("active"));
+  clearInterval(videoInterval); clearInterval(imgInterval);
+  document.getElementById("bgMusic").pause();
+  showFavPicsPage();
+}
+
+function showFavPicsPage(){
+  const favPage=document.createElement("section");
+  favPage.className="page active";
+  favPage.innerHTML=`<h1>there'll be no breaking but cool ass music doe</h1>`;
+  document.body.appendChild(favPage);
+
+  const music=document.getElementById("favMusic");
+  music.currentTime=83; // start at 1:23
+  music.volume=0;
+  music.play();
+  let v=0;
+  let fade=setInterval(()=>{v+=0.02;music.volume=Math.min(v,0.3);if(v>=0.3) clearInterval(fade)},150);
+
+const vids=["vid1.mp4","vid2.mp4","vid3.mp4","vid4.mp4"];
+const imgs=["img1.jpeg","img2.jpeg","img3.jpeg","img4.jpeg","img5.jpeg","img6.jpeg"];
+const layer=document.getElementById("video-layer");
+
+
+  // first 4 fpics
+  for(let i=0;i<4;i++){
+    let img=document.createElement("img");
+    img.src=fpics[i]; img.className="fpic";
+    img.style.left=(10+i*20)+"vw";
+    img.style.top="-40vh";
+    img.style.setProperty("--endY","140vh");
+    img.style.animationDuration="25s";
+    favPage.appendChild(img);
+    setTimeout(()=>img.remove(),25000);
+  }
+
+  // rest fpics and fimgs sequentially
+  let delay=0;
+  for(let i=4;i<fpics.length;i++){
+    setTimeout(()=>{
+      let img=document.createElement("img");
+      img.src=fpics[i];img.className="fpic";
+      img.style.left=(Math.random()*70+10)+"vw";
+      img.style.top="-40vh";
+      img.style.setProperty("--endY","140vh");
+      img.style.animationDuration="22s";
+      favPage.appendChild(img);
+      setTimeout(()=>img.remove(),22000);
+    },delay);
+    delay+=2200;
+  }
+  for(let i=0;i<fimgs.length;i++){
+    setTimeout(()=>{
+      let img=document.createElement("img");
+      img.src=fimgs[i];img.className="fpic";
+      img.style.left=(Math.random()*70+10)+"vw";
+      img.style.top="-40vh";
+      img.style.setProperty("--endY","140vh");
+      img.style.animationDuration="22s";
+      favPage.appendChild(img);
+      setTimeout(()=>img.remove(),22000);
+    },delay);
+    delay+=2200;
+  }
+  for(let i=0;i<fvids.length;i++){
+    setTimeout(()=>{
+      let v=document.createElement("video");
+      v.src=fvids[i];v.className="fvid";v.autoplay=true;v.loop=true;v.muted=true;
+      v.style.left=(Math.random()*70+10)+"vw";
+      v.style.top="-40vh";
+      v.style.setProperty("--endY","140vh");
+      v.style.animationDuration="20s";
+      favPage.appendChild(v);
+      setTimeout(()=>v.remove(),20000);
+    },delay);
+    delay+=2000;
+  }
+}
+</script>
 </body>
 </html>
